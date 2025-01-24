@@ -1,0 +1,85 @@
+import java.sql.*;
+import java.util.ArrayList;
+
+public class DatabaseOperations {
+    private Connection connection;
+
+    public DatabaseOperations(String url, String user, String password) throws SQLException {
+        connection = DriverManager.getConnection(url, user, password);
+    }
+
+    // PATIENT OPERATIONS
+    public void addPatient(Patient patient) throws SQLException {
+        String query = "INSERT INTO patients (id, name, age) VALUES (?, ?, ?)";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, patient.getId());
+            stmt.setString(2, patient.getName());
+            stmt.setInt(3, patient.getAge());
+            stmt.executeUpdate();
+        }
+    }
+
+    // DOCTOR OPERATIONS
+    public void addDoctor(Doctor doctor) throws SQLException {
+        String query = "INSERT INTO doctors (id, name, specialization, degree) VALUES (?, ?, ?, ?)";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, doctor.getId());
+            stmt.setString(2, doctor.getName());
+            stmt.setString(3, doctor.getSpecialization());
+            stmt.setString(4, doctor.getDegree());
+            stmt.executeUpdate();
+        }
+    }
+
+    public ArrayList<Doctor> getAllDoctors() throws SQLException {
+        ArrayList<Doctor> doctors = new ArrayList<>();
+        String query = "SELECT * FROM doctors";
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                String specialization = rs.getString("specialization");
+                String degree = rs.getString("degree");
+                doctors.add(new Doctor(id, name, specialization, degree));
+            }
+        }
+        return doctors;
+    }
+
+    // NURSE OPERATIONS
+    public void addNurse(Nurse nurse) throws SQLException {
+        String query = "INSERT INTO nurses (id, name, specialization, experience_years) VALUES (?, ?, ?, ?)";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, nurse.getId());
+            stmt.setString(2, nurse.getName());
+            stmt.setString(3, nurse.getSpecialization());
+            stmt.setInt(4, nurse.getExperienceYears());
+            stmt.executeUpdate();
+        }
+    }
+
+    public ArrayList<Nurse> getAllNurses() throws SQLException {
+        ArrayList<Nurse> nurses = new ArrayList<>();
+        String query = "SELECT * FROM nurses";
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                String specialization = rs.getString("specialization");
+                int experienceYears = rs.getInt("experience_years");
+                nurses.add(new Nurse(id, name, specialization, experienceYears));
+            }
+        }
+        return nurses;
+    }
+
+    // Close the connection
+    public void closeConnection() throws SQLException {
+        if (connection != null && !connection.isClosed()) {
+            connection.close();
+        }
+    }
+}
+
