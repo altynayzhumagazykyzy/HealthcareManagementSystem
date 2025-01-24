@@ -1,0 +1,43 @@
+import java.lang.String;
+
+public class Main {
+    public static void main(String[] args) {
+        String url = "jdbc:postgresql://localhost:5432/healthcare";
+        String user = "postgres";
+        String password = "113w2020";
+
+        try {
+            // Initialize DatabaseOperations
+            DatabaseOperations dbOps = new DatabaseOperations(url, user, password);
+
+            // Add Doctors
+            Doctor doctor1 = new Doctor(1, "Dr. Smith", "Cardiology", "MD");
+            Doctor doctor2 = new Doctor(2, "Dr. Johnson", "Neurology", "PhD");
+            dbOps.addDoctor(doctor1);
+            dbOps.addDoctor(doctor2);
+
+            // Add Nurses
+            Nurse nurse1 = new Nurse(1, "Nurse Emily", "Pediatrics", 5);
+            Nurse nurse2 = new Nurse(2, "Nurse Olivia", "Surgery", 7);
+            dbOps.addNurse(nurse1);
+            dbOps.addNurse(nurse2);
+
+            // Retrieve and display Doctors
+            System.out.println("Doctors in Database:");
+            for (Doctor doctor : dbOps.getAllDoctors()) {
+                System.out.println(doctor);
+            }
+
+            // Retrieve and display Nurses
+            System.out.println("Nurses in Database:");
+            for (Nurse nurse : dbOps.getAllNurses()) {
+                System.out.println(nurse);
+            }
+
+            // Close connection
+            dbOps.closeConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
