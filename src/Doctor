@@ -1,0 +1,23 @@
+public class Doctor extends MedicalProfessional {
+    private String degree;
+
+    public Doctor(int id, String name, String specialization, String degree) {
+        super(id, name, specialization);
+        this.degree = degree;
+    }
+
+    public String getDegree() {
+        return degree;
+    }
+
+    public void setDegree(String degree) {
+        this.degree = degree;
+    }
+
+    @Override
+    public String toString() {
+        return "Doctor [ID=" + getId() + ", Name=" + getName() +
+               ", Specialization=" + getSpecialization() + 
+               ", Degree=" + degree + "]";
+    }
+}
