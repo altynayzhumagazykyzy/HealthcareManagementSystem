@@ -1,0 +1,23 @@
+public class Nurse extends MedicalProfessional {
+    private int experienceYears;
+
+    public Nurse(int id, String name, String specialization, int experienceYears) {
+        super(id, name, specialization);
+        this.experienceYears = experienceYears;
+    }
+
+    public int getExperienceYears() {
+        return experienceYears;
+    }
+
+    public void setExperienceYears(int experienceYears) {
+        this.experienceYears = experienceYears;
+    }
+
+    @Override
+    public String toString() {
+        return "Nurse [ID=" + getId() + ", Name=" + getName() +
+                ", Specialization=" + getSpecialization() +
+                ", Experience Years=" + experienceYears + "]";
+    }
+}
